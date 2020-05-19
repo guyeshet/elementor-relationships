@@ -1,5 +1,5 @@
 <?php
-namespace SimpleStoryPlugin;
+namespace ElementorRelationships;
 
 use Elementor\Plugin as EL;
 
@@ -18,7 +18,7 @@ class Plugin {
 	 * @access private
 	 * @static
 	 *
-	 * @var Simple_Story_Advanced_Post_Queries_Elementor The single instance of the class.
+	 * @var MB_Relationships_For_Elementor The single instance of the class.
 	 */
 	private static $_instance = null;
 
@@ -32,7 +32,7 @@ class Plugin {
 	 * @access public
 	 * @static
 	 *
-	 * @return Simple_Story_Advanced_Post_Queries_Elementor An instance of the class.
+	 * @return MB_Relationships_For_Elementor An instance of the class.
 	 */
 	public static function instance() {
 

@@ -1,8 +1,8 @@
 <?php
 /**
- * Plugin Name: Elementor Relationships Support
+ * Plugin Name: Elementor Relationships Extension
  * Plugin URI: 
- * Description: Extenstion to MB Relationships and Elementor for Posts queries
+ * Description: Creating One to Many relationships using MB Relationships and Elementor for Posts queries
  * Version:     1.0.0
  * Author:      Guy Eshet
  * Author URI:  https://www.guyeshet.com/
@@ -141,13 +141,15 @@ final class MB_Relationships_For_Elementor {
 		// Check for required PHP version
 		if ( version_compare( PHP_VERSION, self::MINIMUM_PHP_VERSION, '<' ) ) {
 			add_action( 'admin_notices', [ $this, 'admin_notice_minimum_php_version' ] );
-			return;
+			return false;
 		}
 
-		require(__DIR__ . '/plugin.php');
+//		if ( ! is_plugin_active ( 'mb-relationships/mb-relationships.php' ) ) {
+//            add_action( 'admin_notices', [ $this, 'admin_notice_missing_dependent_plugin' ] );
+//            return;
+//        }
 
-		# Other files
-        require(__DIR__ . '/types/post-types.php');
+		require(__DIR__ . '/plugin.php');
 
     }
 
@@ -174,9 +176,34 @@ final class MB_Relationships_For_Elementor {
 		printf( '<div class="notice notice-warning is-dismissible"><p>%1$s</p></div>', $message );
 
 	}
-	
-	
-	/**
+
+    /**
+     * Admin notice
+     *
+     * Warning when the site doesn't have Elementor installed or activated.
+     *
+     * @since 1.0.0
+     *
+     * @access public
+     */
+    public function admin_notice_missing_dependent_plugin() {
+
+        if ( isset( $_GET['activate'] ) ) unset( $_GET['activate'] );
+
+        $message = sprintf(
+        /* translators: 1: Plugin name 2: MB Relationships */
+            esc_html__( '"%1$s" requires "%2$s" to be installed and activated.', 'el-rel' ),
+            '<strong>' . esc_html__( 'Elementor Relationships', 'el-rel' ) . '</strong>',
+            '<strong>' . esc_html__( 'MB Relationships', 'el-rel' ) . '</strong>'
+        );
+
+        printf( '<div class="notice notice-warning is-dismissible"><p>%1$s</p></div>', $message );
+//        @trigger_error($message, E_USER_ERROR);
+
+    }
+
+
+    /**
 	 * Admin notice
 	 *
 	 * Warning when the site doesn't have a minimum required Elementor version.

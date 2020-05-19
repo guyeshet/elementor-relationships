@@ -1,14 +1,14 @@
 <?php
-namespace SimpleStoryPlugin\Module\Simple_Story_Module;
+namespace ElementorRelationships\Module\Elementor_Relationships_Module;
 
 use Elementor\Core\Base\Module;
-use MB_Relationships_API;
+
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly
 }
 
-class Simple_Story_Module extends Module {
+class Elementor_Relationships_Module extends Module {
 		
 	private $components = [];
 
@@ -16,7 +16,12 @@ class Simple_Story_Module extends Module {
 
         $output = array();
 
-        $items = MB_Relationships_API::get_all_relationships_settings();
+        // Make sure again that the plugin is activated
+        if ( ! class_exists('MB_Relationships_API')) {
+            return $output;
+        }
+
+        $items = \MB_Relationships_API::get_all_relationships();
 
         foreach ($items as $key => $settings){
             $output[$key] = __( $key, 'el-rel' );
@@ -187,4 +192,4 @@ class Simple_Story_Module extends Module {
 	
 }
 
-Simple_Story_Module::instance();
+Elementor_Relationships_Module::instance();
